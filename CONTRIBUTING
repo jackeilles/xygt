@@ -1,0 +1,24 @@
+# Contributing to xygt
+
+If you would like to contribute, please create a pull request from [https://github.com/jackeilles/xygt](this) repository. Follow the format below for your pull request.
+
+```
+What type of pull request is this? (Bug Fix, New Feature, etc...)
+
+- 
+
+Summarise what your pull request does.
+
+-
+
+Have you checked whether your pull request is unique?
+
+[] - My pull request is unique, I have checked all open requests and this is new.
+
+Please provide any extra information below.
+
+-
+
+```
+
+**PLEASE** create an issue before you create a pull request so I can review what you are trying to fix, add, etc... simply so a request isn't made out of the blue.
