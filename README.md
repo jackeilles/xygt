@@ -17,5 +17,8 @@ I don't mind if xygt is forked by anyone into a different project, all I ask is 
 Thats it.
 
 ## How to run?
-
-Clone the repository with 
+1. Clone the repository with `git clone https://github.com/jackeilles/xygt.git`
+2. Create a virtual environment in the repository folder `python -m venv .venv`
+3. Enter that venv with `source .venv/bin/activate` on Linux/MacOS or `.venv/scripts/activate` on Windows
+4. Install "requirements.txt" with `pip install -r requirements.txt`
+5. Run with whatever WSGI compatible runner you use, for example `flask run`
