@@ -2,6 +2,11 @@
 
 This repository hosts all of the code for the file hosting site 'xygt.cc'.
 
+## About
+xygt.cc is a simple, anonymous, temporary file-hosting service, designed with Python and Flask.
+
+This uses MongoDB by default for the file index, user database, and the URL shortening DB, I'm **not** adding support for SQL.
+
 ## Website
 You can access the site on [https://xygt.cc](https://xygt.cc).
 

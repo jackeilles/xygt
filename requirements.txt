@@ -1,0 +1,4 @@
+flask
+flask-dotenv
+pymongo
+python-magic
