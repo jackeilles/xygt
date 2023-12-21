@@ -1,4 +1,5 @@
 from config import disallowedMimeTypes, Errors, Config
+from werkzeug.datastructures import FileStorage
 import secrets
 import magic
 import datetime
@@ -32,7 +33,7 @@ def uploadFile(file, ip, userid, filename, id, retention):
             elif retention > (Config.minretention+(-Config.maxretention + Config.minretention)*pow((fileSize / Config.maxFileSize -1), 3)):
                 retention = (Config.minretention+(-Config.maxretention + Config.minretention)*pow((fileSize / Config.maxFileSize -1), 3))
         
-            if file.
+            
             # Create the file
             with open(f"{os.path.abspath(Config.fileDir)}/{filename}", "wb") as f:
                 f.write(file.read())

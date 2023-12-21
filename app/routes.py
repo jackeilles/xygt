@@ -1,6 +1,8 @@
 from app import app, worker
 from config import Config, Errors
 from flask import render_template, request, send_file
+from werkzeug.datastructures import FileStorage
+from io import BytesIO
 import os
 import io
 import random
@@ -37,6 +39,16 @@ def index():
             # Call the function to upload the file, this will return either HTTP Status codes or a 200 with a URL.
             result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
 
+            result = "https://xygt.cc/{}".format(result)
+
+            return result, status
+
+        elif 'file' in request.form:
+
+            file = FileStorage(stream=BytesIO(request.form['file'].encode("utf-8")), filename=id, content_type="text/plain")
+
+            result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
+            
             result = "https://xygt.cc/{}".format(result)
 
             return result, status
