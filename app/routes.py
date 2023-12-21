@@ -2,6 +2,7 @@ from app import app, worker
 from config import Config, Errors
 from flask import render_template, request, send_file
 from werkzeug.datastructures import FileStorage
+from werkzeug.utils import secure_filename
 from io import BytesIO
 import os
 import io
@@ -63,7 +64,7 @@ def getData(id):
     if Config.files.find_one({"id": id}) is not None:
         data = Config.files.find_one({"id": id})
 
-        with open(os.path.join(Config.fileDir, id), "rb") as f:
+        with open(secure_filename(os.path.join(Config.fileDir, id)), "rb") as f:
             file = f.read()
 
         # Get MIME type from file, if fails then use magic
