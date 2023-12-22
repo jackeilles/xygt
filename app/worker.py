@@ -98,11 +98,11 @@ def shortenURL(url, ip, userid, id, retention):
 def idInfo(id):
     # Check files and url for the ID
     if Config.files.find_one({"id": id}) is not None:
-        check = Config.files.find_one({"id": id}, {'_id': False}, {"ip": False})
+        check = Config.files.find_one({"id": id}, {'_id': False, "ip": False})
                                             # "ip": False removes the IP from the returned data.
     # If it's not there then check url
     elif Config.url.find_one({"id": id}) is not None:
-        check = Config.url.find_one({"id": id}, {'_id': False}, {"ip": False}) 
+        check = Config.url.find_one({"id": id}, {'_id': False, "ip": False}) 
 
     # Return the mongodb info about the file, removing IP if its present
     return check

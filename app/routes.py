@@ -1,6 +1,6 @@
 from app import app, worker
 from config import Config, Errors
-from flask import render_template, request, send_file
+from flask import render_template, request, send_file, redirect
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 from io import BytesIO
@@ -55,6 +55,9 @@ def index():
             return result, status
 
         elif 'url' in request.form:
+
+            url = request.form['url']
+
             result, status = worker.shortURL(url, ip, userid, id, retention)
 
 @app.route('/<id>')
