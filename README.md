@@ -11,7 +11,7 @@ This uses MongoDB by default for the file index, user database, and the URL shor
 You can access the site on [https://xygt.cc](https://xygt.cc).
 
 ## License
-This project is licensed under the MIT License, which can be found [LICENSE](here) on the git repo.
+This project is licensed under the MIT License, which can be found [here](LICENSE) on the git repo.
 If you did not recieve a copy of the MIT License with this software, you can view a copy [https://opensource.org/license/mit/](here).
 
 ## Contributing
