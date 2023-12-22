@@ -1,7 +1,5 @@
 from config import disallowedMimeTypes, Errors, Config
-from werkzeug.datastructures import FileStorage
 import secrets
-import magic
 import datetime
 import random
 import time
