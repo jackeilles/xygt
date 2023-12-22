@@ -64,7 +64,7 @@ def getData(id):
     if Config.files.find_one({"id": id}) is not None:
         data = Config.files.find_one({"id": id})
 
-        with open(secure_filename(os.path.join(Config.fileDir, id)), "rb") as f:
+        with open(os.path.join(Config.fileDir, secure_filename(id)), "rb") as f:
             file = f.read()
 
         # Get MIME type from file, if fails then use magic
