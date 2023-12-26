@@ -1,6 +1,15 @@
-from app import app, worker, bcrypt, loginManager
-from app.models import User
-from config import Config, Errors
+#!/usr/bin/env python3
+
+"""
+XYGT.CC - Routes
+A no-bullshit, anonymous, temporary file host.
+"""
+
+import os
+import io
+import random
+from io import BytesIO
+import magic
 from flask import render_template, request, send_file, redirect, flash
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_wtf import FlaskForm
@@ -8,11 +17,9 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, EqualTo
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
-from io import BytesIO
-import os
-import io
-import random
-import magic
+from app import app, worker, bcrypt, loginManager, csrf
+from app.models import User
+from config import Config, Errors
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=16)])
@@ -36,6 +43,7 @@ def load_user(userid):
     user = User.get(userid)
     return user
 
+@csrf.exempt
 @app.route('/', methods=["GET", "POST"])
 def index():
     
@@ -47,7 +55,7 @@ def index():
     elif request.method == "POST":
 
         # Before anything else, we want to take the IP if the logging is enabled
-        if Config.ipLogEnabled == True:
+        if Config.ipLogEnabled:
             ip = request.remote_addr
         else:
             # If not then return a 0
@@ -86,7 +94,7 @@ def index():
 
             url = request.form['url']
 
-            result, status = worker.shortURL(url, ip, userid, id, retention)
+            result, status = worker.shortenURL(url, ip, userid, id, retention)
 
 @app.route('/<id>')
 def getData(id):

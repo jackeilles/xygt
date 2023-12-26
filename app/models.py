@@ -11,12 +11,12 @@ class User(UserMixin):
 
     def __repr__(self):
         return f"User('{self.user}', '{self.userid}', '{self.password}', '{self.idpass}', '{self.level}')"
-
+        
     def get_id(self):
         return str(self.userid)
     
-    def get(userid):
-        userData = Config.users.find_one({"userid": userid})
+    def get(self):
+        userData = Config.users.find_one({"userid": self})
         if not userData:
             return None
         else:
