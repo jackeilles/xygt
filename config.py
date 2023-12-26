@@ -1,5 +1,6 @@
 import os
 from pymongo import MongoClient
+import random
 
 class Config:
     # MongoDB init stuff
@@ -16,6 +17,7 @@ class Config:
     minretention = 7
     fileDir = "./data"
     ipLogEnabled = False
+    secretKey = "CHANGEINPRODUCTION"
 
 quotes = {
     "Anon /g/": "Biometrics are shit, you lose a limb and you're fucked.",

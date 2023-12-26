@@ -1,4 +1,6 @@
 from config import disallowedMimeTypes, Errors, Config
+from app.models import User
+from app import bcrypt
 import secrets
 import datetime
 import random
@@ -67,7 +69,6 @@ def shortenURL(url, ip, userid, id, retention):
         while True:                 # Loop to find an available file ID
             id = randomHex()        # Prevent conflicts if 2 of the same get made
             if Config.files.find_one({'id': id}) is None:
-                filename = id
                 break
 
     if userid == None:
@@ -108,3 +109,17 @@ def idInfo(id):
 def randomHex():
     hexRand = ''.join(secrets.choice('0123456789abcdef') for _ in range(6))
     return hexRand
+
+def registerUser(username, password):
+    # Initialise some values
+    try:
+        level = 1
+        userid = randomHex()
+        idpass = bcrypt.generate_password_hash(randomHex()).decode("utf-8")
+        password = bcrypt.generate_password_hash(password).decode("utf-8")
+        user = User(username, userid, password, idpass, level)
+        Config.users.insert_one(user.__dict__)
+
+        return True
+    except:
+        return False

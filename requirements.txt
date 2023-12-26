@@ -2,3 +2,6 @@ flask
 flask-dotenv
 pymongo
 python-magic
+flask-login
+flask-bcrypt
+flask-wtf

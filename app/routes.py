@@ -1,6 +1,11 @@
-from app import app, worker
+from app import app, worker, bcrypt, loginManager
+from app.models import User
 from config import Config, Errors
-from flask import render_template, request, send_file, redirect
+from flask import render_template, request, send_file, redirect, flash
+from flask_login import login_user, current_user, logout_user, login_required
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import DataRequired, Length, EqualTo
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 from io import BytesIO
@@ -9,11 +14,34 @@ import io
 import random
 import magic
 
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=16)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=32)])
+    password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    tnc = BooleanField('I agree to the Terms and Conditions', validators=[DataRequired()])
+    submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        user = Config.users.find_one({"username": username.data})
+        if user:
+            raise ValueError("That username is taken. Try another.")
+        
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=16)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=32)])
+    submit = SubmitField('Login')
+
+@loginManager.user_loader
+def load_user(userid):
+    user = User.get(userid)
+    return user
+
 @app.route('/', methods=["GET", "POST"])
 def index():
     
     # Check for a GET or POST request
     if request.method == "GET":
+        print(current_user.is_authenticated)
         return render_template('index.html')
 
     elif request.method == "POST":
@@ -96,3 +124,51 @@ def getInfo(id):
 @app.route('/teapot')
 def teapot():
     return 'I\'m a teapot. 418.', 418
+
+@app.route('/register', methods=["GET", "POST"])
+def register():
+    if current_user.is_authenticated:
+        return redirect("/")
+    else:
+        if request.method == "GET":
+            return render_template("register.html", form=RegistrationForm())
+        elif request.method == "POST":
+            username = request.form.get("username")
+            password = request.form.get("password")
+
+            res = worker.registerUser(username, password)
+
+            if res == True:
+                flash("Successfully registered!", "success")
+                return redirect("/login")
+            else:
+                flash("Something went wrong, sorry.", "danger")
+                return redirect("/register")
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect("/")
+    else:
+        if request.method == "GET":
+            return render_template("login.html", form=LoginForm())
+        elif request.method == "POST":
+            username = request.form.get("username")
+            password = request.form.get("password")
+
+            userid = Config.users.find_one({"user": username})["userid"]
+            user = User.get(userid)
+
+            if user and bcrypt.check_password_hash(user.password, password):
+                login_user(user)
+                print(current_user.is_authenticated)
+                flash("Successfully logged in!", "success")
+                return redirect("/")
+            else:
+                flash("Incorrect username or password.", "danger")
+                return redirect("/login")
+            
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect("/")
