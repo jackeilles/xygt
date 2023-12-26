@@ -17,7 +17,7 @@ def uploadFile(file, ip, userid, filename, id, retention):
             while True:                 # Loop to find an available file ID
                 id = randomHex()        # Prevent conflicts if 2 of the same get made
                 if Config.files.find_one({'id': id}) is None:
-                    filename = id
+                    id = filename
                     break
 
             if userid == None:
