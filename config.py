@@ -53,14 +53,14 @@ class Errors:
         "Your file is too large, get it under 256mb first.",
         "I don't know what the hell you're trying to upload but it's over 256mb, so no.",
         "Your file is over 256mb, remember, we don't store your files forever!",
-        "File is too big, 265mb is the limit.",
+        "File is too big, 256mb is the limit.",
         "nuh uh, too big"
     ]
 
     fileTypeNotAllowed = [
         "Nice try idiot. You're not uploading that onto my server.",
         "No executables allowed, NO EXCEPTIONS.",
-        "So bud... what you trying to do there? You can't upload executables you know.",
+        "So bud... what you trying to do there? You can't upload executables you knob.",
         "Nah, not getting that on here today.",
         "Stop trying to upload executables, goddamnit.",
         "Executables can suck my dick, you're not uploading that"

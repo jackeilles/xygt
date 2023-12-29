@@ -1,12 +1,64 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Home</h1>
-    <!-- Check if the user is logged in -->
+    <h1>xygt.cc</h1>
     {% if current_user.is_authenticated %}
-        <p>Welcome, {{ current_user.user }}!</p>
-        <p><a href="{{ url_for('logout') }}">Logout</a></p>
+        <h5>Welcome, {{ current_user.user }}!</h5>
     {% else %}
-        <p><a href="{{ url_for('login') }}">Login</a></p>
+        <h5>Temporary file-hosting and URL shortening</h5>
     {% endif %}
+    <p>Welcome to xygt.cc, a no-bullshit, anonymous and temporary file-hosting and URL shortening solution, similar to the likes of pastebin and 0x0.</p>
+    <p>Our default file retention is a minimum of 7 days and a maximum of 365 days, and is calculated using file size.</p>
+    <h3>How do I upload files?</h3>
+    <p>You can either use the `upload` form, or use a POST request.</p>
+    <p>For example, using curl:</p>
+    <code>curl -F "file=@/path/to/file" https://xygt.cc</code>
+    <p>You can also add extra <a href="faq#flags">flags</a> onto your command, for example:</p>
+    <code>curl -F "file=@/path/to/file" -F "retention=1024" -F "userid=6fd12a" -F "idpass=6ad5ec8ff9a14b45"</code>
+    <p>You can pipe plain text into the file flag, for example:</p>
+    <code>echo "Hello, World!" | curl -F "file=@-" https://xygt.cc</code>
+    <br>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="file">
+        <input type="number" name="retention" placeholder="Retention (in seconds)">
+        {% if current_user.is_authenticated %}
+            <input type="hidden" name="userid" value="{{ current_user.id }}">
+            <input type="hidden" name="idpass" value="{{ current_user.idpass }}">
+        {% endif %}
+        <input type="submit" value="Upload">
+    </form>
+    <br>
+    <h3>How do I shorten URLs?</h3>
+    <p>You can either use the `shorten` form, or use a POST request.</p>
+    <p>For example, using curl:</p>
+    <code>curl -F "url=https://example.com" https://xygt.cc</code>
+    <p>You can also add extra <a href="faq#flags">flags</a> onto your command, for example:</p>
+    <code>curl -F "url=https://example.com" -F "retention=1024" -F "userid=6fd12a"</code>
+    <br>
+    <form action="/" method="post">
+        <input type="url" name="url" placeholder="URL to shorten">
+        <input type="number" name="retention" placeholder="Retention (in seconds)">
+        {% if current_user.is_authenticated %}
+            <input type="hidden" name="userid" value="{{ current_user.id }}">
+        {% endif %}
+        <input type="submit" value="Shorten!">
+    </form>
+    <br>
+    <h3>How do I view my files or URL's?</h3>
+    <p>Simply use the link that is returned when you submit a POST request.</p>
+    <p>When you upload a file or shorten a URL, you'll simply get this in response:</p>
+    <code>https://xygt.cc/[id]</code>
+    <p>Simply replace [id] with the ID that is returned.</p>
+    <br>
+    <h3>How do I delete my files or URL's?</h3>
+    <p>Your files or URL's can only be removed if you have linked them with your userid.</p>
+    <p>This is either done by appending <code>-F 'userid=6fd12a'</code> or by being logged in when going through the website.</p>
+    <p>You can then go to your <a href="dashboard">dashboard</a> and delete the ID in question using the button next to it.</p>
+    <p>Alternatively you can also use a POST request like this:</p>
+    <code>curl -F'userid=6fd12a' -F'idpass=6ad5ec8ff9a14b45' https://xygt.cc/[id]/delete</code>
+    <br>
+    <h3>Donating</h3>
+    <p>xygt.cc is a free service, and costs me around £75 per year to run.</p>
+    <p>If you'd like to donate, you can do so via Liberapay:</p>
+    <p>liberapay placeholder</p>
 {% endblock %}

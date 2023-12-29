@@ -17,7 +17,7 @@ def uploadFile(file, ip, userid, filename, id, retention):
             while True:                 # Loop to find an available file ID
                 id = randomHex()        # Prevent conflicts if 2 of the same get made
                 if Config.files.find_one({'id': id}) is None:
-                    id = filename
+                    filename=id
                     break
 
             if userid == None:
@@ -32,6 +32,8 @@ def uploadFile(file, ip, userid, filename, id, retention):
                 retention = (Config.minretention+(-Config.maxretention + Config.minretention)*pow((fileSize / Config.maxFileSize -1), 3))
             elif retention > (Config.minretention+(-Config.maxretention + Config.minretention)*pow((fileSize / Config.maxFileSize -1), 3)):
                 retention = (Config.minretention+(-Config.maxretention + Config.minretention)*pow((fileSize / Config.maxFileSize -1), 3))
+            else:
+                retention = retention
         
             
             # Create the file
@@ -92,7 +94,7 @@ def shortenURL(url, ip, userid, id, retention):
     Config.url.insert_one(data)
     print(Config.url.find_one({"id": data["id"]}))
 
-    return id
+    return id, 200
 
 def idInfo(id):
     # Check files and url for the ID

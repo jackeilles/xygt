@@ -64,7 +64,7 @@ def index():
         # Init variables before they're passed
         userid = request.form.get("userid") if request.form.get("userid") else None
         filename = request.form.get("filename") if request.form.get("filename") else None
-        retention = request.form.get("retention") if request.form.get("retention") else None
+        retention = int(request.form.get("retention")) if request.form.get("retention") else None
         id = request.form.get("filename") if Config.files.find_one({"id": filename}) is None else None
 
         # We got a file or a url?
@@ -95,6 +95,34 @@ def index():
             url = request.form['url']
 
             result, status = worker.shortenURL(url, ip, userid, id, retention)
+
+            result = "https://xygt.cc/{}".format(result)
+
+            return result, status
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/tos')
+def tos():
+    return "placeholder"
+
+@app.route('/privacy')
+def privacy():
+    return "placeholder"
+
+@app.route('/faq')
+def faq():
+    return "placeholder"
+
+@app.route('/contact')
+def contact():
+    return "placeholder"
+
+@app.route('/transparency')
+def transparency():
+    return "placeholder"
 
 @app.route('/<id>')
 def getData(id):

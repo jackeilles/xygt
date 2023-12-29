@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>About</h1>
+    <p>This is xygt.cc, an anonymous, no-bullshit, temporary file hosting and URL shortening solution.</p>
+    <h3>Introduction</h3>
+    <p>xygt.cc was created to help with the problem of massive walls of pasted text being spammed into support chats in Discord, IRC, Slack, etc...</p>
+    <p>It also helps with needing to have a file temporarily hosted somewhere for people to quickly access within a set amount of time.</p>
+    <p>xygt.cc is a free service, and will always be free, with optional donations available with small perks that don't greatly disadvantage paid users.</p>
+    <p>By anonymous and no-bullshit, no data is collected that doesn't need to be collected, and data we do collect can not directly identify you.</p>
+    <br>
+    <h3>How it works</h3>
+    <p>For files, xygt.cc takes the file from the POST request, and writes it directly to a directory located on the server.</p>
+    <p>Alongside this, an entry is made into the self-hosted MongoDB database, storing the filename, file ID, retention, upload date, and expiry date.</p>
+    <p>Optionally a user can also add their userID and IDPass, which will allow them to manage their file from the website and access features after donating.</p>
+    <br>
+    <p>For URL's, xygt.cc takes the URL from the POST request, and first validates it to ensure that the domain is valid and the host is up.</p>
+    <p>It then writes an entry to the self-hosted MongoDB database, storing the URL, ID, retention, upload date, and expiry date.</p>
+    <p>A user can optionally add their userID and IDPass, allowing them to manage their URL from the website.</p>
+    <br>
+    <h3>How to use</h3>
+    <p>xygt.cc can be used in a variety of ways, either through the website, or through a POST request.</p>
+    <p>For example, to upload a file, you can use the following command:</p>
+    <code>curl -F "file=@/path/to/file" https://xygt.cc</code>
+    <p>or for URL's</p>
+    <code>curl -F "url=https://example.com" https://xygt.cc</code>
+    <p>For more information on how to use xygt.cc, please visit the <a href="faq#usage">FAQ</a>.</p>
+    <br>
+    <h3>The creator</h3>
+    <p>xygt.cc was created by Jack Eilles, a 17 year old student from the United Kingdom.</p>
+    <p>I currently study a T-Level DPDD course and I am in my second year.</p>
+    <p>You can find out more about me at <a href="https://eilles.xyz">https://eilles.xyz</a>.</p>
+{% endblock %}
