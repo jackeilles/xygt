@@ -29,8 +29,13 @@ quotes = {
 
 disallowedMimeTypes = [
     "application/x-dosexec",
+    "application/x-executable",
+    "application/x-sharedlib",
+    "application/x-hdf5",
     "application/java-archive",
-    "application/java-vm"
+    "application/vnd.android.package-archive",
+    "application/x-rar",
+    "application.vnd.microsoft.portable-executable",
 ]
 
 class Errors:

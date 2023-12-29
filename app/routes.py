@@ -106,7 +106,7 @@ def about():
 
 @app.route('/tos')
 def tos():
-    return "placeholder"
+    return render_template('tos.html')
 
 @app.route('/privacy')
 def privacy():
@@ -118,7 +118,7 @@ def faq():
 
 @app.route('/contact')
 def contact():
-    return "placeholder"
+    return render_template('contact.html')
 
 @app.route('/transparency')
 def transparency():

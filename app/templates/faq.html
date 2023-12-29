@@ -1,18 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>FAQ</h1>
-    <h3>What is this?</h3>
+    <h3 id="what">What is this?</h3>
     <p>Check <a href="about">about</a>.</p>
-    <h3>Who are you?</h3>
+    <h3 id="who">Who are you?</h3>
     <p>I'm Jack Eilles, the owner, developer and overall <a href="https://en.wikipedia.org/wiki/Benevolent_dictator_for_life">BDFL</a> of xygt.cc</p>
-    <h3>Help! I forgot my password!</h3>
+    <h3 id="perks">What do you mean by "Donation perks"?</h3>
+    <p>So to show appreciation to those who donate to xygt.cc, there are a few extra things they can take advantage of.</p>
+    <p>These include an increased retention time (365 days to 730 days), as well as an increased file size (256mb to 512mb).</p>
+    <p>Not gonna lie, don't know what you'd use these for but, have fun I guess? Obviously to use these, your userID and IDPass need to be added to your request, the server isn't magic.</p>
+    <h3 id="password">Help! I forgot my password!</h3>
     <p>If you can't find your IDPass, check your <a href="dashboard">dashboard</a>. You can reset it from there.</p>
     <p>If you can't remember your regular password for the site, you're on your own. Glhf.</p>
-    <h3>What is this licensed under?</h3>
+    <h3 id="fuckcurljkjk">Why are the CURL commands so complicated?</h3>
+    <p>Thats just how CURL commands are, I'm going to write a helper tool for this at some point, let you store your userID and IDPass so you don't have to type it in every request.</p>
+    <h3 id="flags">What are the flags I can use?</h3>
+    <ul>
+        <li>file / url - These specify the data to be passed onto xygt.cc, either file data or a URL to be shortened. This is the only required field.</li>
+        <li>retention - You can specify a custom retention time in seconds, as long as its less than the calculated time for your file, if not then it'll use the default.</li>
+        <li>userid - This is your optional userid, it lets you link an upload to your account.</li>
+        <li>idpass - This allows you to use your userid, required if userid is present.</li>
+    </ul>
+    <h3 id="license">What is this licensed under?</h3>
     <p>I decided to put it under the MIT License as it provides the most freedom.</p>
-    <h3>Do you work with the government?</h3>
-    <p>In the unlikely event that xygt.cc is given a request for information, we will provide as much information as possible without directly identifying the person behind the data requested.</p>
+    <h3 id="free">Why is this free?</h3>
+    <p>I want to help out, to put it simply. As well as that, it's fun to work on, yeah I might be losing a bit of money yearly but oh well, if it's going towards something I enjoy doing, can it really be thought of as 'losing money'? I think not.</p>
+    <h3 id="gov">Do you work with the government?</h3>
+    <p>In the unlikely event that xygt.cc is served with a request for information, we will provide as much information as possible without directly identifying the person behind the data requested.</p>
     <p>Due to the nature of xygt.cc's privacy policy, we will not provide any extra information about our users unless we are served with a legal order enforcable within its juristiction. In that case, extra logging will be enabled sitewide to collect data.</p>
     <p>I encourage anyone to submit a request via E-Mail to me to take down any illegal activity being conducted on this site, just know I may not be able to provide all information required without a legal order.</p>
-    <p>Per GDPR / UK DPA, I am willing to respond to FOI requests, as well as the orders mentioned above. All requests will be publicly available @ <a href="transparency/public">here</a> with sensitive information omitted.</p>
+    <p>Per GDPR / UK DPA, I am willing to respond to FOI requests, as well as the orders mentioned above. All requests will be publicly available @ <a href="transparency/public">this directory</a> with sensitive information omitted.</p>
 {% endblock %}
