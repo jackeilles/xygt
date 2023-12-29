@@ -114,7 +114,7 @@ def privacy():
 
 @app.route('/faq')
 def faq():
-    return "placeholder"
+    return render_template('faq.html')
 
 @app.route('/contact')
 def contact():
