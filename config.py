@@ -48,13 +48,13 @@ class Errors:
     ]
 
     fileTooLarge = [
-        "Too big, nah.",
-        "File size goes over the limit, you're not uploading this"
+        "Too big, nah. (256MB is the max)",
+        "File size goes over the limit (of 256MB), you're not uploading this"
         "Your file is too large, get it under 256mb first.",
         "I don't know what the hell you're trying to upload but it's over 256mb, so no.",
         "Your file is over 256mb, remember, we don't store your files forever!",
-        "File is too big, 265mb is the limit.",
-        "nuh uh, too big"
+        "File is too big, 256mb is the limit.",
+        "nuh uh, too big (256mb max)"
     ]
 
     fileTypeNotAllowed = [
@@ -63,8 +63,9 @@ class Errors:
         "So bud... what you trying to do there? You can't upload executables you know.",
         "Nah, not getting that on here today.",
         "Stop trying to upload executables, goddamnit.",
-        "Executables can suck my dick, you're not uploading that"
-        "nuh uh (executables not allowed)"
+        "Executables can suck my dick, you're not uploading that",
+        "nuh uh (executables not allowed)",
+        "you cheeky boy, you're not uploading an executable today"
     ]
 
     def file404Error():
