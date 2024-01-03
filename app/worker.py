@@ -26,7 +26,9 @@ def uploadFile(file, ip, userid, filename, id, retention):
                 userid = 0
 
             # Calculate retention before the file is written, we'll grab the filesize here as it's needed for the equation.
-            fileSize = round(float(file.content_length) / 1024, 2)
+            file.seek(0, os.SEEK_END)
+            fileSize = round(float(file.tell()) / 1024, 2)
+            print(fileSize)
 
             if retention == None:
                 retention = (Config.minretention+(-Config.maxretention + Config.minretention)*pow((fileSize / Config.maxFileSize -1), 3))
