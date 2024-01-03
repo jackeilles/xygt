@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Privacy Policy</h2>
+    <p><i>Last Updated 29/12/23 - 21:30 GMT</i></p>
+    <h3>Information we collect</h3>
+    <p>xygt.cc does not require any personally identifiable information in order to sign up to, and use our service. If you would like to prevent yourself from providing us with any personal information at all, please follow basic OPSEC guidelines and use common sense when browsing.</p>
+    <br>
+    <p>At any given time, xygt.cc may hold the following information about you.</p>
+    <ul>
+        <li>1. Username</li>
+        <li>2. UserID</li>
+        <li>3. Hashed Password</li>
+        <li>4. Hashed IDPass</li>
+        <li>5. HTTP Request Information</li>
+        <li>6. File Storage</li>
+        <li>7. Shortened URL's</li>
+        <li>8. Login cookies</li>
+    </ul>
+    <br>
+    <p>At any given point with 1 (one) day's notice displayed on xygt.cc's homepage, the additional information may be held:</p>
+    <ul>
+        <li>1. IP Address</li>
+        <li>2. User Agent</li>
+        <li>3. Requested data from xygt</li>
+    </ul>
+    <br>
+    <p>xygt.cc can not guarantee the availability of the afformentioned data unless specifically specified that we will be logging this data.</p>
+    <p>Before we collect this data, we are required to supply our users with 1 (one) day written notice as well as an exact date and time of logging activation.</p>
+    <br>
+    <h3>How we use your information</h3>
+    <p>xygt.cc uses your information to provide you with the service we offer. This includes, but is not limited to:</p>
+    <ul>
+        <li>1. File Hosting</li>
+        <li>2. Paste Hosting</li>
+        <li>3. URL Shortening</li>
+        <li>4. File and URL Management</li>
+        <li>5. User Authentication</li>
+    </ul>
+    <br>
+    <p>Files uploaded to xygt.cc will be accessed in the manner below:</p>
+    <ul>
+        <li><h5>By a human</h5></li>
+        <li>Files will be regularly moderated and checked for content not allowed on xygt.cc</li>
+        <li>Files will be extensively checked in the event an abuse report is filed against a specific file ID.</li>
+    </ul>
+    <ul>
+        <li><h5>By Law Enforcement</h5></li>
+        <li>To inventigate a crime or any illegal material found on the website.</li>
+    </ul>
+    <br>
+    <p>xygt.cc will never sell your information to third parties, nor will we ever use your information for advertising purposes.</p>
+    <p>xygt.cc is hosted on a Hetzner instance located in Nuremberg, DE. All information in transit to and from this server is transferred securely with HTTPS.</p>
+    <p>xygt.cc has no third parties.</p>
+    <br>
+    <h3>How we store your information</h3>
+    <p>xygt.cc stores all user information, file location information and URL redirection information in a secure MongoDB instance that is not open to the internet and is only acessible through 127.0.0.1 (localhost).</p>
+    <p>xygt.cc stores all user passwords and IDPasses in a hashed format using the bcrypt hashing algorithm.</p>
+    <p>Files uploaded to xygt.cc are stored in a folder located in the directory in which the xygt.cc instance is ran inside of. Basic security practices should be applied when uploading any data to xygt.cc.</p>
+    <h3>Right to erasure</h3>
+    <p>All xygt.cc users have the right to erasure, registered or not.</p>
+    <p>In order to proceed with an account deletion, the following steps must be taken:</p>
+    <ul>
+        <li>1. Delete all currently uploaded files and URL's from the user dashboard.</li>
+        <li>2. Send an E-Mail to <a href="mailto:jack@eilles.xyz">jack@eilles.xyz</a> with the subject line "xygt.cc - Account Deletion Request".</li>
+    </ul>
+    <p>Once these steps have been completed, your account will be deleted within 1 (one) week.</p>
+    <br>
+    <h3>Backups</h3>
+    <p>Due to the temporary nature of xygt.cc, backups are not kept of any data, that being user data or file information.</p>
+    <p>In the event of a catastrophic failure in which all user data is lost, if you are a donator and would like your perks back, please contact us at the E-Mail address listed on the support page with confirmation of your donation.</p>
+    <br>
+    <p>Thanks for using xygt!</p>
+{% endblock %}

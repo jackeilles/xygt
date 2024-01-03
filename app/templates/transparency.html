@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Transparency</h2>
+    <p>I want to be as open as possible about how xygt is run, and what we actually do.</p>
+    <p>See our log of requests for information <a href="transparency/public">here</a>.</p>
+    <p>xygt.cc runs on a Hetzner VPS located in Nuremberg, Germany.</p>
+    <p>The specs of this machine are as follows:</p>
+    <ul>
+        <li>2 Core ARM vCPU</li>
+        <li>4GB RAM</li>
+        <li>80GB SSD Storage across 2 volumes</li>
+        <li>1 IPv4 Address</li>
+    </ul>
+    <p>xygt.cc is ran by a single person, and is not affiliated with any other service.</p>
+    <p>The backend for this platform was written using Python with the Flask framework.</p>
+    <p>Our database is self-hosted on this server with no internet access, it runs MongoDB Community Edition and stores user data, file location data, and URL redirect data.</p>
+    <p>Any extra info you'd like to see on this page can be suggested through the E-Mail on the <a href="contact">contact</a> page</p>
+{% endblock %}
