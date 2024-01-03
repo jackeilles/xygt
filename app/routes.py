@@ -110,7 +110,7 @@ def tos():
 
 @app.route('/privacy')
 def privacy():
-    return "placeholder"
+    return render_template('privacy.html')
 
 @app.route('/faq')
 def faq():
@@ -122,7 +122,11 @@ def contact():
 
 @app.route('/transparency')
 def transparency():
-    return "placeholder"
+    return render_template('transparency.html')
+
+@app.route('/transparency/public')
+def public():
+    return "Nothing here yet."
 
 @app.route('/<id>')
 def getData(id):

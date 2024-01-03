@@ -22,7 +22,7 @@
         <input type="file" name="file" id="file">
         <input type="number" name="retention" placeholder="Retention (in seconds)">
         {% if current_user.is_authenticated %}
-            <input type="hidden" name="userid" value="{{ current_user.id }}">
+            <input type="hidden" name="userid" value="{{ current_user.userid }}">
             <input type="hidden" name="idpass" value="{{ current_user.idpass }}">
         {% endif %}
         <input type="submit" value="Upload">
@@ -39,7 +39,8 @@
         <input type="url" name="url" placeholder="URL to shorten">
         <input type="number" name="retention" placeholder="Retention (in seconds)">
         {% if current_user.is_authenticated %}
-            <input type="hidden" name="userid" value="{{ current_user.id }}">
+            <input type="hidden" name="userid" value="{{ current_user.userid }}">
+            <input type="hidden" name="idpass" value="{{ current_user.idpass }}">
         {% endif %}
         <input type="submit" value="Shorten!">
     </form>
