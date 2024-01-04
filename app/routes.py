@@ -76,8 +76,6 @@ def index():
             # Call the function to upload the file, this will return either HTTP Status codes or a 200 with a URL.
             result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
 
-            result = "https://xygt.cc/{}".format(result)
-
             return result, status
 
         elif 'file' in request.form:
@@ -85,8 +83,6 @@ def index():
             file = FileStorage(stream=BytesIO(request.form['file'].encode("utf-8")), filename=id, content_type="text/plain")
 
             result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
-            
-            result = "https://xygt.cc/{}".format(result)
 
             return result, status
 
@@ -95,8 +91,6 @@ def index():
             url = request.form['url']
 
             result, status = worker.shortenURL(url, ip, userid, id, retention)
-
-            result = "https://xygt.cc/{}".format(result)
 
             return result, status
 
@@ -127,6 +121,11 @@ def transparency():
 @app.route('/transparency/public')
 def public():
     return "Nothing here yet."
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return render_template('dashboard.html', files=Config.files.find({"userid": current_user.userid}), urls=Config.url.find({"userid": current_user.userid}))
 
 @app.route('/<id>')
 def getData(id):
@@ -160,6 +159,28 @@ def getData(id):
 def getInfo(id):
 
     return worker.idInfo(id)
+
+@app.route('/<id>/delete')
+@login_required
+def delete(id):
+    if Config.files.find_one({"id": id}) is not None:
+        if Config.files.find_one({"id": id}) is None:
+            return Errors.file404
+        else:
+            data = Config.files.find_one({"id": id})
+        
+        if data["userid"] == current_user.userid:
+            Config.files.delete_one({"id": id})
+            os.remove(os.path.join(Config.fileDir, secure_filename(id)))
+            return "File deleted."
+        
+        elif data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.user.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
+            Config.files.delete_one({"id": id})
+            os.remove(os.path.join(Config.fileDir, secure_filename(id)))
+            return "File deleted."
+        
+        else:
+            return "You are not the owner of this file."
 
 @app.route('/teapot')
 def teapot():
@@ -201,7 +222,6 @@ def login():
 
             if user and bcrypt.check_password_hash(user.password, password):
                 login_user(user)
-                print(current_user.is_authenticated)
                 flash("Successfully logged in!", "success")
                 return redirect("/")
             else:
@@ -212,3 +232,16 @@ def login():
 def logout():
     logout_user()
     return redirect("/")
+
+@app.route('/resetidpass')
+def resetidpass():
+    idpass = worker.resetIDPass(current_user.userid)
+    if idpass == False:
+        return "Something went wrong, sorry. Please try again."
+    else:
+        return f"Your new IDPass is \n {idpass}\n This will only be shown once, please save it somewhere safe."
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return random.choice(Errors.file404), 404

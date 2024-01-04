@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <script>
+        function showUserIDandIDPass() {
+            var x = document.getElementById("userid");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
+    <h1>Dashboard</h1>
+    <p>Hello, {{ current_user.user }}</p>
+    <h3>Files</h3>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Filename</th>
+            <th>Size</th>
+            <th>Retention</th>
+            <th>Uploaded</th>
+            <th>Actions</th>
+        </tr>
+        {% for file in files %}
+            <tr>
+                <td><a href="https://xygt.cc/{{ file['id'] }}">{{ file['id'] }}</a></td>
+                <td>{{ file["filename"] }}</td>
+                <td>{{ file["size"] }}</td>
+                <td>{{ file["retention"] }}</td>
+                <td>{{ file["uploaded"] }}</td>
+                <td><a href="/{{ file.id }}/delete">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <h3>URL's</h3>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>URL</th>
+            <th>Retention</th>
+            <th>Uploaded</th>
+            <th>Actions</th>
+        </tr>
+        {% for url in urls %}
+            <tr>
+                <td><a href="https://xygt.cc/{{ url['id'] }}">{{ url['id'] }}</a></td>
+                <td>{{ url["url"] }}</td>
+                <td>{{ url["retention"] }}</td>
+                <td>{{ url["uploaded"] }}</td>
+                <td><a href="/{{ url['id'] }}/delete">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <h3>Forgot your UserID?</h3>
+    <p>Click below to view it.</p>
+    <button onclick="showUserIDandIDPass();">View UserID/IDPass</button>
+    <div id="userid" style="display: none;">
+        <p>Your UserID is: {{ current_user.userid }}</p>
+    </div>
+    <br>
+    <h3>Generate a new IDPass.</h3>
+    <p>If you've just created an account, lost your IDPass, or believe someone else is using your IDPass, you can reset it here.</p>
+    <a href="/resetidpass">Reset IDPass</a>
+{% endblock %}

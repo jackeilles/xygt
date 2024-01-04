@@ -28,7 +28,9 @@ def uploadFile(file, ip, userid, filename, id, retention):
             # Calculate retention before the file is written, we'll grab the filesize here as it's needed for the equation.
             file.seek(0, os.SEEK_END)
             fileSize = round(float(file.tell()) / 1024, 2)
-            print(fileSize)
+            
+            # Set the position back to 0
+            file.seek(0)
 
             if retention == None:
                 retention = (Config.minretention+(-Config.maxretention + Config.minretention)*pow((fileSize / Config.maxFileSize -1), 3))
@@ -60,7 +62,7 @@ def uploadFile(file, ip, userid, filename, id, retention):
             Config.files.insert_one(data)
             print(Config.files.find_one({"id": id}))
 
-            return id, 200
+            return f"https://xygt.cc/{id}", 200
         else:
             return random.choice(Errors.fileTooLarge), 400
     else:
@@ -96,7 +98,7 @@ def shortenURL(url, ip, userid, id, retention):
     Config.url.insert_one(data)
     print(Config.url.find_one({"id": data["id"]}))
 
-    return id, 200
+    return f"https://xygt.cc/{id}", 200
 
 def idInfo(id):
     # Check files and url for the ID
@@ -118,12 +120,24 @@ def registerUser(username, password):
     # Initialise some values
     try:
         level = 1
-        userid = randomHex()
-        idpass = bcrypt.generate_password_hash(randomHex()).decode("utf-8")
+        while True:
+            userid = randomHex()
+            if Config.users.find_one({"userid": userid}) is None:
+                break
+        idpass = bcrypt.generate_password_hash(randomHex()).decode("utf-8") # The user will not know this, they'll need to generate a new one.
         password = bcrypt.generate_password_hash(password).decode("utf-8")
         user = User(username, userid, password, idpass, level)
         Config.users.insert_one(user.__dict__)
 
         return True
+    except:
+        return False
+    
+def resetIDPass(userid):
+    try:
+        idpass = randomHex(8)
+        hashedPass = bcrypt.generate_password_hash(idpass).decode("utf-8")
+        Config.users.update_one({"userid": userid}, {"$set": {"idpass": hashedPass}})
+        return idpass
     except:
         return False
