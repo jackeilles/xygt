@@ -12,8 +12,8 @@ class Config:
     # Basic configs
     maxFileSize = 256
     premMaxFileSize = 512
-    maxretention = 365
-    minretention = 7
+    maxretention = 31540000
+    minretention = 604800
     fileDir = "./data"
     ipLogEnabled = False
     secretKey = "CHANGEINPRODUCTION"

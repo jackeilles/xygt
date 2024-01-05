@@ -6,6 +6,7 @@ This wipes all files and DB entries for Files, URL's and users.
 """
 
 import os
+import subprocess
 from pymongo import MongoClient
 
 class Config:
@@ -31,7 +32,8 @@ def main():
             print("Clearing user db")
             Config.url.delete_many({})
             print("Deleting local files")
-            os.remove(f"{Config.fileDir}/*")
+            subprocess.run(["rm", "-rf", f"{Config.fileDir}"])
+            os.mkdir(f"{Config.fileDir}")
             print("Done. xygt.cc is ready to start clean.")
             exit()
 

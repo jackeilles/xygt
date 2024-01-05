@@ -27,7 +27,7 @@ def uploadFile(file, ip, userid, filename, id, retention):
 
             # Calculate retention before the file is written, we'll grab the filesize here as it's needed for the equation.
             file.seek(0, os.SEEK_END)
-            fileSize = round(float(file.tell()) / 1024, 2)
+            fileSize = round(float(file.tell()) / (1024 * 1024), 2)
             
             # Set the position back to 0
             file.seek(0)
@@ -51,11 +51,12 @@ def uploadFile(file, ip, userid, filename, id, retention):
                 'id': id,
                 'filename': filename,
                 'filesize': fileSize,
-                'retention': round(retention * 86400), # Convert to seconds
+                'mimetype': file.content_type,
+                'retention': retention,
                 'userid': userid,
                 'ip': ip,
                 'date': date,
-                'expiry': date + round(retention * 86400)
+                'expiry': date + retention
             }
 
             # Add the data and verify its there.
@@ -83,9 +84,9 @@ def shortenURL(url, ip, userid, id, retention):
         userid = 0
 
     if retention == None:
-        retention = 14
-    elif retention > 365:
-        retention = 365
+        retention = 604800
+    elif retention > 31540000:
+        retention = 31540000
         
     data = {
         "id": id,
@@ -116,6 +117,10 @@ def randomHex():
     hexRand = ''.join(secrets.choice('0123456789abcdef') for _ in range(6))
     return hexRand
 
+def genIDPass():
+    idpass = ''.join(secrets.choice('0123456789abcdef') for _ in range(16))
+    return idpass
+
 def registerUser(username, password):
     # Initialise some values
     try:
@@ -135,7 +140,7 @@ def registerUser(username, password):
     
 def resetIDPass(userid):
     try:
-        idpass = randomHex(8)
+        idpass = genIDPass()
         hashedPass = bcrypt.generate_password_hash(idpass).decode("utf-8")
         Config.users.update_one({"userid": userid}, {"$set": {"idpass": hashedPass}})
         return idpass

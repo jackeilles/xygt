@@ -19,7 +19,7 @@ from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 from app import app, worker, bcrypt, loginManager, csrf
 from app.models import User
-from config import Config, Errors
+from config import Config, Errors, quotes
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=16)])
@@ -49,8 +49,10 @@ def index():
     
     # Check for a GET or POST request
     if request.method == "GET":
-        print(current_user.is_authenticated)
-        return render_template('index.html')
+        randomQuote = random.choice(list(quotes.items()))
+        author = randomQuote[0]
+        quote = randomQuote[1]
+        return render_template('index.html', author=author, quote=quote)
 
     elif request.method == "POST":
 
