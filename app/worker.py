@@ -44,7 +44,8 @@ def uploadFile(file, ip, userid, filename, id, retention):
             with open(f"{os.path.abspath(Config.fileDir)}/{filename}", "wb") as f:
                 f.write(file.read())
 
-            date = time.mktime(datetime.datetime.now().timetuple())
+            timestamp = datetime.datetime.now()
+            timestamp = timestamp.timestamp()
 
             # Create the dictionary that we'll insert into the db
             data = {
@@ -55,8 +56,8 @@ def uploadFile(file, ip, userid, filename, id, retention):
                 'retention': retention,
                 'userid': userid,
                 'ip': ip,
-                'date': date,
-                'expiry': date + retention
+                'date': timestamp,
+                'expiry': timestamp + retention
             }
 
             # Add the data and verify its there.
@@ -87,13 +88,18 @@ def shortenURL(url, ip, userid, id, retention):
         retention = 604800
     elif retention > 31540000:
         retention = 31540000
-        
+
+    timestamp = datetime.datetime.now()
+    timestamp = timestamp.timestamp()    
+
     data = {
-        "id": id,
-        "url": url,
-        "userid": userid,
-        "retention": retention,
-        "ip": ip
+        'id': id,
+        'url': url,
+        'retention': retention,
+        'userid': userid,
+        'ip': ip,
+        'date': timestamp,
+        'expiry': timestamp + retention
     }
 
     Config.url.insert_one(data)

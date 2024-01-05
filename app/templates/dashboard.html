@@ -20,16 +20,16 @@
             <th>Filename</th>
             <th>Size</th>
             <th>Retention</th>
-            <th>Uploaded</th>
+            <th>Timestamp</th>
             <th>Actions</th>
         </tr>
         {% for file in files %}
             <tr>
                 <td><a href="https://xygt.cc/{{ file['id'] }}">{{ file['id'] }}</a></td>
                 <td>{{ file["filename"] }}</td>
-                <td>{{ file["size"] }}</td>
+                <td>{{ file["filesize"] }}mb</td>
                 <td>{{ file["retention"] }}</td>
-                <td>{{ file["uploaded"] }}</td>
+                <td>{{ file["date"] }}</td>
                 <td><a href="/{{ file.id }}/delete">Delete</a></td>
             </tr>
         {% endfor %}
@@ -57,7 +57,7 @@
     <br>
     <h3>Forgot your UserID?</h3>
     <p>Click below to view it.</p>
-    <button onclick="showUserIDandIDPass();">View UserID/IDPass</button>
+    <button onclick="showUserIDandIDPass();">View UserID</button>
     <div id="userid" style="display: none;">
         <p>Your UserID is: {{ current_user.userid }}</p>
     </div>

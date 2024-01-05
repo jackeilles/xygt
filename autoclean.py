@@ -10,6 +10,7 @@ import datetime
 import os
 from pymongo import MongoClient
 from config import Config
+import time
 
 class Config:
     # MongoDB init stuff
@@ -21,28 +22,31 @@ class Config:
     fileDir = "./data"
 
 def main():
-    print("Starting cleanup script...")
+    while True:
+        print("Starting cleanup script...")
 
-    # Get current time in unix timestamp
-    now = datetime.datetime.now()
-    now = now.timestamp()
+        # Get current time in unix timestamp
+        now = datetime.datetime.now()
+        now = now.timestamp()
 
-    # Get all expired files
-    expiredFiles = Config.files.find({"expiry": {"$lt": now}})
-    expiredURLs = Config.url.find({"expiry": {"$lt": now}})
+        # Get all expired files
+        expiredFiles = Config.files.find({"expiry": {"$lt": now}})
+        expiredURLs = Config.url.find({"expiry": {"$lt": now}})
 
-    # Delete all expired files
-    for file in expiredFiles:
-        print(f"Deleting file {file['id']}")
-        Config.files.delete_one({"id": file["id"]})
-        os.remove(os.path.join(Config.fileDir, file["filename"]))
+        # Delete all expired files
+        for file in expiredFiles:
+            print(f"Deleting file {file['id']}")
+            Config.files.delete_one({"id": file["id"]})
+            os.remove(os.path.join(Config.fileDir, file["filename"]))
 
-    # Delete all expired URL's
-    for url in expiredURLs:
-        print(f"Deleting URL {url['id']}")
-        Config.url.delete_one({"id": url["id"]})
+        # Delete all expired URL's
+        for url in expiredURLs:
+            print(f"Deleting URL {url['id']}")
+            Config.url.delete_one({"id": url["id"]})
 
-    print("Cleanup complete.")
+        print("Cleanup complete.")
+        time.sleep(60)
+
 
 if __name__ == "__main__":
     main()
