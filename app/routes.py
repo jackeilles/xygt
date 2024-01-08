@@ -166,10 +166,8 @@ def getInfo(id):
 @login_required
 def delete(id):
     if Config.files.find_one({"id": id}) is not None:
-        if Config.files.find_one({"id": id}) is None:
-            return Errors.file404
-        else:
-            data = Config.files.find_one({"id": id})
+
+        data = Config.files.find_one({"id": id})
         
         if data["userid"] == current_user.userid:
             Config.files.delete_one({"id": id})
@@ -183,6 +181,24 @@ def delete(id):
         
         else:
             return "You are not the owner of this file."
+
+    elif Config.url.find_one({"id": id}) is not None:
+
+        data = Config.url.find_one({"id": id})
+
+        if data["userid"] == current_user.userid:
+            Config.files.delete_one({"id": id})
+            return "URL deleted."
+        
+        elif data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.user.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
+            Config.files.delete_one({"id": id})
+            return "URL deleted."
+        
+        else:
+            return "You are not the owner of this link."
+    
+    else:
+        return "This ID does not exist."
 
 @app.route('/teapot')
 def teapot():

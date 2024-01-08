@@ -40,9 +40,9 @@ def main():
             os.remove(os.path.join(Config.fileDir, file["filename"]))
 
         # Delete all expired URL's
-        for url in expiredURLs:
-            print(f"Deleting URL {url['id']}")
-            Config.url.delete_one({"id": url["id"]})
+        for urls in expiredURLs:
+            print(f"Deleting URL {urls['id']}")
+            Config.url.delete_one({"id": urls["id"]})
 
         print("Cleanup complete.")
         time.sleep(60)
