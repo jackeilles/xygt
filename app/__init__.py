@@ -6,6 +6,7 @@ from config import Config
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = Config.secretKey
+app.config['MAX_CONTENT_LENGTH'] = Config.maxFileSize * 1024 * 1024
 csrf = CSRFProtect(app)
 bcrypt = Bcrypt(app)
 loginManager = LoginManager(app)

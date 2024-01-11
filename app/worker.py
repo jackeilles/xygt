@@ -151,4 +151,4 @@ def resetIDPass(userid):
         Config.users.update_one({"userid": userid}, {"$set": {"idpass": hashedPass}})
         return idpass
     except:
-        return False
+        return False 
