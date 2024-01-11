@@ -5,3 +5,4 @@ python-magic
 flask-login
 flask-bcrypt
 flask-wtf
+waitress
