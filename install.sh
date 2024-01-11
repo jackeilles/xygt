@@ -7,4 +7,10 @@ fi
 
 apt install mongodb-org python3-pip python3-venv
 
+systemctl enable --now mongod
+
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
 echo "Installation complete, launch xygt with ./run.py (in the venv)"
