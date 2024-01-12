@@ -169,7 +169,7 @@ def delete(id):
 
         data = Config.files.find_one({"id": id})
         
-        if data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.user.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
+        if data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.users.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
             Config.files.delete_one({"id": id})
             os.remove(os.path.join(Config.fileDir, secure_filename(id)))
             return "File deleted."
