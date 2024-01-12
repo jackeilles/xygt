@@ -52,7 +52,7 @@ def index():
         randomQuote = random.choice(list(quotes.items()))
         author = randomQuote[0]
         quote = randomQuote[1]
-        return render_template('index.html', author=author, quote=quote)
+        return render_template('index.html', author=author, quote=quote, title="Home")
 
     elif request.method == "POST":
 
@@ -98,27 +98,27 @@ def index():
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', title="About")
 
 @app.route('/tos')
 def tos():
-    return render_template('tos.html')
+    return render_template('tos.html', title="Terms of Service")
 
 @app.route('/privacy')
 def privacy():
-    return render_template('privacy.html')
+    return render_template('privacy.html', title="Privacy Policy")
 
 @app.route('/faq')
 def faq():
-    return render_template('faq.html')
+    return render_template('faq.html', title="FAQ")
 
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    return render_template('contact.html', title="Contact")
 
 @app.route('/transparency')
 def transparency():
-    return render_template('transparency.html')
+    return render_template('transparency.html', title="Transparency Report")
 
 @app.route('/transparency/public')
 def public():
@@ -127,7 +127,7 @@ def public():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', files=Config.files.find({"userid": current_user.userid}), urls=Config.url.find({"userid": current_user.userid}))
+    return render_template('dashboard.html', files=Config.files.find({"userid": current_user.userid}), urls=Config.url.find({"userid": current_user.userid}), title="Dashboard")
 
 @app.route('/<id>')
 def getData(id):
@@ -162,7 +162,7 @@ def getInfo(id):
 
     return worker.idInfo(id)
 
-@app.route('/<id>/delete')
+@app.route('/<id>/delete', methods=["POST"])
 @login_required
 def delete(id):
     if Config.files.find_one({"id": id}) is not None:
