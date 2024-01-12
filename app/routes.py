@@ -162,6 +162,7 @@ def getInfo(id):
 
     return worker.idInfo(id)
 
+@csrf.exempt
 @app.route('/<id>/delete', methods=["POST"])
 @login_required
 def delete(id):
@@ -210,7 +211,7 @@ def register():
         return redirect("/")
     else:
         if request.method == "GET":
-            return render_template("register.html", form=RegistrationForm())
+            return render_template("register.html", form=RegistrationForm(), title="Register")
         elif request.method == "POST":
             username = request.form.get("username")
             password = request.form.get("password")
@@ -230,7 +231,7 @@ def login():
         return redirect("/")
     else:
         if request.method == "GET":
-            return render_template("login.html", form=LoginForm())
+            return render_template("login.html", form=LoginForm(), title="Login")
         elif request.method == "POST":
             username = request.form.get("username")
             password = request.form.get("password")
