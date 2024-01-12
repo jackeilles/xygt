@@ -2,6 +2,8 @@
 
 This repository hosts all of the code for the file hosting site 'xygt.cc'.
 
+![Static Badge](https://img.shields.io/badge/xygt.cc-view%20site-black?link=https%3A%2F%2Fxygt.cc)
+
 ## About
 xygt.cc is a simple, anonymous, temporary file-hosting service, designed with Python and Flask.
 
