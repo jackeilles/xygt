@@ -164,7 +164,6 @@ def getInfo(id):
 
 @csrf.exempt
 @app.route('/<id>/delete', methods=["POST"])
-@login_required
 def delete(id):
     if Config.files.find_one({"id": id}) is not None:
 
