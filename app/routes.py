@@ -163,7 +163,7 @@ def getInfo(id):
     return worker.idInfo(id)
 
 @csrf.exempt
-@app.route('/<id>/delete', methods=["GET", "POST"])
+@app.route('/<id>/delete')
 def delete(id):
     if Config.files.find_one({"id": id}) is not None:
 
