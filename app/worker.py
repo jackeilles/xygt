@@ -10,7 +10,8 @@ import os
 def uploadFile(file, ip, userid, filename, id, retention):
 
     # Is the MIME and file size good? 
-    if magic.from_buffer(file, mime=True) not in disallowedMimeTypes:
+    file_content = file.read()
+    if magic.from_buffer(file_content, mime=True) not in disallowedMimeTypes:
         if file.content_length <= Config.maxFileSize:
             # We're going to check whether the id variable has been filled
 
@@ -52,7 +53,7 @@ def uploadFile(file, ip, userid, filename, id, retention):
                 'id': id,
                 'filename': filename,
                 'filesize': fileSize,
-                'mimetype': magic.from_buffer(file, mime=True) if magic.from_buffer(file, mime=True) != None else "text/plain",
+                'mimetype': magic.from_buffer(file_content, mime=True) if magic.from_buffer(file_content, mime=True) != None else "text/plain",
                 'retention': retention,
                 'userid': userid,
                 'ip': ip,
