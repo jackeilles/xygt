@@ -4,13 +4,13 @@ from app import bcrypt
 import secrets
 import datetime
 import random
-import time
+import magic
 import os
 
 def uploadFile(file, ip, userid, filename, id, retention):
 
     # Is the MIME and file size good? 
-    if file.content_type not in disallowedMimeTypes:
+    if magic.from_buffer(file, mime=True) not in disallowedMimeTypes:
         if file.content_length <= Config.maxFileSize:
             # We're going to check whether the id variable has been filled
 
@@ -52,7 +52,7 @@ def uploadFile(file, ip, userid, filename, id, retention):
                 'id': id,
                 'filename': filename,
                 'filesize': fileSize,
-                'mimetype': file.content_type if file.content_type != None else "text/plain",
+                'mimetype': magic.from_buffer(file, mime=True) if magic.from_buffer(file, mime=True) != None else "text/plain",
                 'retention': retention,
                 'userid': userid,
                 'ip': ip,
