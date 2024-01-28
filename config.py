@@ -71,11 +71,11 @@ class Errors:
         "nuh uh (executables not allowed)"
     ]
 
-    def file404Error():
+    def file404Error(self):
         return random.choice(self.file404.items())
 
-    def fileTooLargeError():
+    def fileTooLargeError(self):
         return random.choice(self.fileTooLarge.items())
 
-    def fileTypeNotAllowedError():
+    def fileTypeNotAllowedError(self):
         return random.choice(self.fileTypeNotAllowed.items())
