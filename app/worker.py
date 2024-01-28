@@ -52,7 +52,7 @@ def uploadFile(file, ip, userid, filename, id, retention):
                 'id': id,
                 'filename': filename,
                 'filesize': fileSize,
-                'mimetype': file.content_type,
+                'mimetype': file.content_type if file.content_type != None else "text/plain",
                 'retention': retention,
                 'userid': userid,
                 'ip': ip,
