@@ -139,11 +139,11 @@ def getData(id):
         with open(os.path.join(Config.fileDir, secure_filename(id)), "rb") as f:
             file = f.read()
 
-        # Get MIME type from file, if fails then use magic
+        # Get the mimetype from the db
         try:
             mimetype = data["mimetype"]
-        except KeyError:
-            mimetype = magic.from_buffer(file, mime=True)
+        except:
+            mimetype = "text/plain" # This is the default because it seems loads of files are being given the wrong mime
 
         # Return the file with the correct MIME type
         return send_file(io.BytesIO(file), mimetype=mimetype)
