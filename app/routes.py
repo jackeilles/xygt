@@ -43,6 +43,7 @@ def load_user(userid):
     user = User.get(userid)
     return user
 
+### THIS ENDPOINT CAN ONLY BE USED FOR CLI, ENDPOINT FOR FORM IS BELOW
 @csrf.exempt
 @app.route('/', methods=["GET", "POST"])
 def index():
@@ -63,38 +64,41 @@ def index():
             # If not then return a 0
             ip = 0
 
-        # Init variables before they're passed
-        userid = request.form.get("userid") if request.form.get("userid") else None
-        filename = request.form.get("filename") if request.form.get("filename") else None
-        retention = int(request.form.get("retention")) if request.form.get("retention") else None
-        id = request.form.get("filename") if Config.files.find_one({"id": filename}) is None else None
+        # Now check the userid and idpass against the db
+        if Config.users.find({"userid": request.form["userid"]}) and Config.users.find({"idpass": request.form["idpass"]}):
 
-        # We got a file or a url?
-        if 'file' in request.files:
+            # Init variables before they're passed
+            userid = request.form.get("userid") if request.form.get("userid") else None
+            filename = request.form.get("filename") if request.form.get("filename") else None
+            retention = int(request.form.get("retention")) if request.form.get("retention") else None
+            id = request.form.get("filename") if Config.files.find_one({"id": filename}) is None else None
 
-            # Grab the file and store it, this is a FileStorage object
-            file = request.files['file']
+            # We got a file or a url?
+            if 'file' in request.files:
 
-            # Call the function to upload the file, this will return either HTTP Status codes or a 200 with a URL.
-            result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
+                # Grab the file and store it, this is a FileStorage object
+                file = request.files['file']
 
-            return result, status
+                # Call the function to upload the file, this will return either HTTP Status codes or a 200 with a URL.
+                result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
 
-        elif 'file' in request.form:
+                return result, status
 
-            file = FileStorage(stream=BytesIO(request.form['file'].encode("utf-8")), filename=id, content_type="text/plain")
+            elif 'file' in request.form:
 
-            result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
+                file = FileStorage(stream=BytesIO(request.form['file'].encode("utf-8")), filename=id, content_type="text/plain")
 
-            return result, status
+                result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
 
-        elif 'url' in request.form:
+                return result, status
 
-            url = request.form['url']
+            elif 'url' in request.form:
 
-            result, status = worker.shortenURL(url, ip, userid, id, retention)
+                url = request.form['url']
 
-            return result, status
+                result, status = worker.shortenURL(url, ip, userid, id, retention)
+
+                return result, status
 
 @app.route('/about')
 def about():
@@ -190,7 +194,7 @@ def delete(id):
             Config.files.delete_one({"id": id})
             return "URL deleted."
         
-        elif data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.user.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
+        elif data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.users.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
             Config.files.delete_one({"id": id})
             return "URL deleted."
         
