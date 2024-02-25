@@ -65,8 +65,8 @@ def index():
             ip = 0
 
         # Now check the userid and idpass against the db
-        print(Config.users.find({"userid": request.form["userid"]})["userid"])
-        print(Config.users.find({"userid": request.form["userid"]})["idpass"])
+        print(Config.users.find({"userid": request.form["userid"]}))
+        print(Config.users.find({"userid": request.form["userid"]}))
         if Config.users.find({"userid": request.form["userid"]})["userid"] == request.form["userid"] and Config.users.find({"userid": request.form["userid"]})["idpass"] == request.form["idpass"]:
 
             # Init variables before they're passed
