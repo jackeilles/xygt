@@ -260,7 +260,7 @@ def resetidpass():
     else:
         return f"Your new IDPass is \n {idpass}\n This will only be shown once, please save it somewhere safe."
 
-### API Endpoint ###
+### API Endpoints ###
 
 @app.route('/api')
 def api():
