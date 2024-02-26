@@ -163,11 +163,6 @@ def getData(id):
     else:
         return random.choice(Errors.file404)
 
-@app.route('/<id>/info')
-def getInfo(id):
-
-    return worker.idInfo(id)
-
 @csrf.exempt
 @app.route('/<id>/delete')
 def delete(id):
@@ -265,7 +260,26 @@ def resetidpass():
     else:
         return f"Your new IDPass is \n {idpass}\n This will only be shown once, please save it somewhere safe."
 
+### API Endpoint ###
+
+@app.route('/api')
+def api():
+    return {"error": "Specify an API version."}
+
+@app.route('/api/v1')
+def v3():
+    return {"status": "ok"}
+
+@app.route('/api/v1/user/<id>')
+def getUser(id):
+    return worker.userInfo(id)
+
+@app.route('/api/v1/file/<id>')
+def getInfo(id):
+    return worker.idInfo(id)
+
+### Error Handlers ###
 
 @app.errorhandler(404)
-def page_not_found(e):
+def page_not_found():
     return random.choice(Errors.file404), 404
