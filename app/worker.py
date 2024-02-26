@@ -120,8 +120,6 @@ def idInfo(id):
     # Return the mongodb info about the file, removing IP if its present
     return check
 
-<<<<<<< HEAD
-=======
 def userInfo(id):
     # Grab user entry from userID
     user = Config.users.find_one({"userid": id})
@@ -161,7 +159,6 @@ def userInfo(id):
             }
         }
 
->>>>>>> 3063133 (dict name wrong)
 def randomHex():
     hexRand = ''.join(secrets.choice('0123456789abcdef') for _ in range(6))
     return hexRand
