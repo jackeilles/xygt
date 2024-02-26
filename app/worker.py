@@ -117,8 +117,50 @@ def idInfo(id):
     elif Config.url.find_one({"id": id}) is not None:
         check = Config.url.find_one({"id": id}, {'_id': False, "ip": False}) 
 
-    # Return the mongodb info about the file, removing IP if its present
+    else:
+        check = {"Error": "File Not Found"}
+
+    # Return the mongodb info about the file
     return check
+
+def userInfo(id):
+    # Grab user entry from userID
+    user = Config.users.find_one({"userid": id})
+    
+    username = user['username']
+    userid = id
+
+    # Search for all files from that userID
+    files = Config.files.find({"userid": userid}, {"_id": False, "ip": False})
+    list = {}
+
+    # Create file listing
+    for file in files:
+        list.update({
+            file["id"]: {
+                "filename": file["filename"],
+                "mimetype": file["mimetype"],
+                "filesize": file["filesize"],
+                "retention": file["retention"],
+                "creation": file["date"],
+                "expiry": file["expiry"]
+            }
+        })
+
+    # Search for all URL's from that userID
+    url = Config.url.find({"userid": userid})
+
+    # Format all into one JSON
+    return {
+        "user": {
+            "username": username,
+            "userid": userid 
+        },
+        "files": {
+            "count": len(files),
+            "list": list
+            }
+        }
 
 def randomHex():
     hexRand = ''.join(secrets.choice('0123456789abcdef') for _ in range(6))
