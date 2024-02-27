@@ -19,7 +19,7 @@
     <p>For example, using curl:</p>
     <code>curl -F "file=@/path/to/file" https://xygt.cc</code>
     <p>You can also add extra <a href="faq#flags">flags</a> onto your command, for example:</p>
-    <code>curl -F "file=@/path/to/file" -F "retention=1024" -F "userid=6fd12a" -F "idpass=6ad5ec8ff9a14b45"</code>
+    <code>curl -F "file=@/path/to/file" -F "retention=1024" -F "userid=6fd12a" -F "idpass=6ad5ec8ff9a14b45" https://xygt.cc</code>
     <p>You can pipe plain text into the file flag, for example:</p>
     <code>echo "Hello, World!" | curl -F "file=@-" https://xygt.cc</code>
     <br>
@@ -41,7 +41,7 @@
     <p>For example, using curl:</p>
     <code>curl -F "url=https://example.com" https://xygt.cc</code>
     <p>You can also add extra <a href="faq#flags">flags</a> onto your command, for example:</p>
-    <code>curl -F "url=https://example.com" -F "retention=1024" -F "userid=6fd12a"</code>
+    <code>curl -F "url=https://example.com" -F "retention=1024" -F "userid=6fd12a" https://xygt.cc</code>
     <br>
     <h3>URL Shortening through the site is currently disabled due to a security vulnerability.</h3>
     <h5>Use curl instead.</h5>
