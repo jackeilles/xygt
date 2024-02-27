@@ -123,12 +123,14 @@ def idInfo(id):
 def userInfo(id):
     # Grab user entry from userID
     user = Config.users.find_one({"userid": id})
-    
+    print(user)
+
     username = user['user']
     userid = id
 
     # Search for all files from that userID
-    files = Config.files.find_many({"userid": userid}, {"_id": False, "ip": False})
+    files = Config.files.find({"userid": userid}, {"_id": False, "ip": False})
+    print(files)
     list = {}
 
     # Create file listing
@@ -145,7 +147,7 @@ def userInfo(id):
         })
 
     # Search for all URL's from that userID
-    url = Config.url.find_many({"userid": userid})
+    url = Config.url.find({"userid": userid})
 
     # Format all into one JSON
     return {

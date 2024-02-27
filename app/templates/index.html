@@ -23,6 +23,9 @@
     <p>You can pipe plain text into the file flag, for example:</p>
     <code>echo "Hello, World!" | curl -F "file=@-" https://xygt.cc</code>
     <br>
+    <h3>File uploading through the site is currently disabled due to a security vulnerability.</h3>
+    <h5>Use curl instead.</h5>
+    <!-- Disabled 
     <form action="/" method="post" enctype="multipart/form-data">
         <input type="file" name="file" id="file">
         <input type="number" name="retention" placeholder="Retention (in seconds)">
@@ -32,7 +35,7 @@
         {% endif %}
         <input type="submit" value="Upload">
     </form>
-    <br>
+    -->
     <h3>How do I shorten URLs?</h3>
     <p>You can either use the `shorten` form, or use a POST request.</p>
     <p>For example, using curl:</p>
@@ -40,6 +43,9 @@
     <p>You can also add extra <a href="faq#flags">flags</a> onto your command, for example:</p>
     <code>curl -F "url=https://example.com" -F "retention=1024" -F "userid=6fd12a"</code>
     <br>
+    <h3>URL Shortening through the site is currently disabled due to a security vulnerability.</h3>
+    <h5>Use curl instead.</h5>
+    <!-- Disabled
     <form action="/" method="post">
         <input type="url" name="url" placeholder="URL to shorten">
         <input type="number" name="retention" placeholder="Retention (in seconds)">
@@ -49,7 +55,7 @@
         {% endif %}
         <input type="submit" value="Shorten!">
     </form>
-    <br>
+    -->
     <h3>How do I view my files or URL's?</h3>
     <p>Simply use the link that is returned when you submit a POST request.</p>
     <p>When you upload a file or shorten a URL, you'll simply get this in response:</p>
