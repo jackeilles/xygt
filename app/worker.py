@@ -108,17 +108,29 @@ def shortenURL(url, ip, userid, id, retention):
 
     return f"https://xygt.cc/{id}", 200
 
-def idInfo(id):
-    # Check files and url for the ID
-    if Config.files.find_one({"id": id}) is not None:
-        check = Config.files.find_one({"id": id}, {'_id': False, "ip": False})
-                                            # "ip": False removes the IP from the returned data.
-    # If it's not there then check url
-    elif Config.url.find_one({"id": id}) is not None:
-        check = Config.url.find_one({"id": id}, {'_id': False, "ip": False}) 
+def idInfo(id, cred):
+    # Check if cred is true
+    if cred:
+        # Check files and url for the ID
+        if Config.files.find_one({"id": id}) is not None:
+            check = Config.files.find_one({"id": id}, {'_id': False})
 
-    # Return the mongodb info about the file, removing IP if its present
-    return check
+        # If it's not there then check url
+        elif Config.url.find_one({"id": id}) is not None:
+            check = Config.url.find_one({"id": id}, {'_id': False}) 
+
+        # Return the mongodb info about the file
+        return check
+    else:
+        # Check files and url for the ID
+        if Config.files.find_one({"id": id}) is not None:
+            check = Config.files.find_one({"id": id}, {'_id': False, "ip": False, "userid": False})
+        # If it's not there then check url
+        elif Config.url.find_one({"id": id}) is not None:
+            check = Config.url.find_one({"id": id}, {'_id': False, "ip": False, "userid": False}) 
+
+        # Return the mongodb info about the file
+        return check
 
 def userInfo(id):
     # Grab user entry from userID

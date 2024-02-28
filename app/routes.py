@@ -164,42 +164,45 @@ def getData(id):
         return random.choice(Errors.file404)
 
 @csrf.exempt
-@app.route('/<id>/delete')
+@app.route('/<id>/delete', methods=["GET", "POST"])
 def delete(id):
-    if Config.files.find_one({"id": id}) is not None:
+    if request.method == "GET":
+        return "You're not very smart, are you? GET request on a DELETE endpoint LMAOOO\n\n"
+    elif request.method == "POST":
+        if Config.files.find_one({"id": id}) is not None:
 
-        data = Config.files.find_one({"id": id})
-        
-        if data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.users.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
-            Config.files.delete_one({"id": id})
-            os.remove(os.path.join(Config.fileDir, secure_filename(id)))
-            return "File deleted."
-        
-        elif data["userid"] == current_user.userid:
-            Config.files.delete_one({"id": id})
-            os.remove(os.path.join(Config.fileDir, secure_filename(id)))
-            return "File deleted."
+            data = Config.files.find_one({"id": id})
+            
+            if data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.users.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
+                Config.files.delete_one({"id": id})
+                os.remove(os.path.join(Config.fileDir, secure_filename(id)))
+                return "File deleted."
+            
+            elif data["userid"] == current_user.userid:
+                Config.files.delete_one({"id": id})
+                os.remove(os.path.join(Config.fileDir, secure_filename(id)))
+                return "File deleted."
+            
+            else:
+                return "You are not the owner of this file."
+
+        elif Config.url.find_one({"id": id}) is not None:
+
+            data = Config.url.find_one({"id": id})
+
+            if data["userid"] == current_user.userid:
+                Config.files.delete_one({"id": id})
+                return "URL deleted."
+            
+            elif data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.users.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
+                Config.files.delete_one({"id": id})
+                return "URL deleted."
+            
+            else:
+                return "You are not the owner of this link."
         
         else:
-            return "You are not the owner of this file."
-
-    elif Config.url.find_one({"id": id}) is not None:
-
-        data = Config.url.find_one({"id": id})
-
-        if data["userid"] == current_user.userid:
-            Config.files.delete_one({"id": id})
-            return "URL deleted."
-        
-        elif data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.users.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
-            Config.files.delete_one({"id": id})
-            return "URL deleted."
-        
-        else:
-            return "You are not the owner of this link."
-    
-    else:
-        return "This ID does not exist."
+            return "This ID does not exist."
 
 @app.route('/teapot')
 def teapot():
@@ -261,22 +264,36 @@ def resetidpass():
         return f"Your new IDPass is \n {idpass}\n This will only be shown once, please save it somewhere safe."
 
 ### API Endpoints ###
-
-@app.route('/api')
+@csrf.exempt
+@app.route('/api', methods=["GET", "POST"])
 def api():
     return {"error": "Specify an API version."}
 
-@app.route('/api/v1')
+@csrf.exempt
+@app.route('/api/v1', methods=["GET", "POST"])
 def v3():
     return {"status": "ok"}
 
-@app.route('/api/v1/user/<id>')
+@csrf.exempt
+@app.route('/api/v1/user/<id>', methods=["GET", "POST"])
 def getUser(id):
-    return worker.userInfo(id)
+    data = Config.users.find_one({"userid": id})
+    if data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.users.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
+        return worker.userInfo(id)
+    else:
+        return "Incorrect userID or IDPass", 401
 
-@app.route('/api/v1/file/<id>')
+@csrf.exempt
+@app.route('/api/v1/file/<id>', methods=["GET", "POST"])
 def getInfo(id):
-    return worker.idInfo(id)
+    data = Config.files.find_one({"id": id})
+
+    if data["userid"] == request.form.get("userid") and bcrypt.check_password_hash(Config.users.find_one({"userid": data["userid"]})["idpass"], request.form.get("idpass")):
+        cred = True
+    else:
+        cred = False
+
+    return worker.idInfo(id, cred)
 
 ### Error Handlers ###
 
