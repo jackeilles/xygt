@@ -65,42 +65,46 @@ def index():
             ip = 0
 
         # Now check the userid and idpass against the db
-        print(Config.users.find({"userid": request.form.get('userid')}))
-        print(Config.users.find({"userid": request.form.get('idpass')}))
-        if Config.users.find({"userid": request.form["userid"]})["userid"] == request.form["userid"] and Config.users.find({"userid": request.form["userid"]})["idpass"] == request.form["idpass"]:
+        try:
+            if Config.users.find_one({"userid": request.form.get("userid")})["userid"] == request.form["userid"] and bcrypt.check_password_hash(Config.users.find_one({"userid": request.form.get("userid")})["idpass"], request.form.get("idpass")):
 
-            # Init variables before they're passed
-            userid = request.form.get("userid") if request.form.get("userid") else None
-            filename = request.form.get("filename") if request.form.get("filename") else None
-            retention = int(request.form.get("retention")) if request.form.get("retention") else None
-            id = request.form.get("filename") if Config.files.find_one({"id": filename}) is None else None
+                # Init variables before they're passed
+                userid = request.form.get("userid") if request.form.get("userid") else None
+                filename = request.form.get("filename") if request.form.get("filename") else None
+                retention = int(request.form.get("retention")) if request.form.get("retention") else None
+                id = request.form.get("filename") if Config.files.find_one({"id": filename}) is None else None
 
-            # We got a file or a url?
-            if 'file' in request.files:
+                # We got a file or a url?
+                if 'file' in request.files:
 
-                # Grab the file and store it, this is a FileStorage object
-                file = request.files['file']
+                    # Grab the file and store it, this is a FileStorage object
+                    file = request.files['file']
 
-                # Call the function to upload the file, this will return either HTTP Status codes or a 200 with a URL.
-                result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
+                    # Call the function to upload the file, this will return either HTTP Status codes or a 200 with a URL.
+                    result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
 
-                return result, status
+                    return result, status
 
-            elif 'file' in request.form:
+                elif 'file' in request.form:
 
-                file = FileStorage(stream=BytesIO(request.form['file'].encode("utf-8")), filename=id, content_type="text/plain")
+                    file = FileStorage(stream=BytesIO(request.form['file'].encode("utf-8")), filename=id, content_type="text/plain")
 
-                result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
+                    result, status = worker.uploadFile(file, ip, userid, filename, id, retention)
 
-                return result, status
+                    return result, status
 
-            elif 'url' in request.form:
+                elif 'url' in request.form:
 
-                url = request.form['url']
+                    url = request.form['url']
 
-                result, status = worker.shortenURL(url, ip, userid, id, retention)
+                    result, status = worker.shortenURL(url, ip, userid, id, retention)
 
-                return result, status
+                    return result, status
+            else:
+                return "Invalid userID or IDpass."
+        except Exception as e:
+            print(e)
+            return "Invalid userID or IDPass."
 
 @app.route('/about')
 def about():
