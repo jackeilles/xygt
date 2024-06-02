@@ -1,3 +1,5 @@
+# Dead Project - xygt has rebranded to pasted.sh - undergoing rewrite, project archived for now.
+
 ![xygt.png](xygt.png)
 
 This repository hosts all of the code for the file hosting site 'xygt.cc'.
